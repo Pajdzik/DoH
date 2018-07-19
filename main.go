@@ -12,8 +12,13 @@ type ApiConfiguration struct {
 	QueryApiRootName string
 }
 
+type DnsConfiguration struct {
+	TrustedDnsServers []string
+}
+
 type Config struct {
 	ApiConfig ApiConfiguration
+	DnsConfig DnsConfiguration
 }
 
 var log = logging.MustGetLogger("main")
