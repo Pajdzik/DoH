@@ -21,7 +21,8 @@ type Config struct {
 	DnsConfig DnsConfiguration
 }
 
-var log = logging.MustGetLogger("main")
+var log *logging.Logger = logging.MustGetLogger("doh")
+var config Config = readConfiguration()
 
 func readConfiguration() Config {
 	tomlData, err := ioutil.ReadFile("config.toml")
@@ -42,12 +43,10 @@ func readConfiguration() Config {
 
 func configureRoutes(config ApiConfiguration) {
 	apiRoot := "/" + config.QueryApiRootName
-	goji.Get(apiRoot+"/:name", query)
+	goji.Get(apiRoot+"/:hostname", query)
 }
 
 func main() {
-	log.Info("Reading configuration")
-	config := readConfiguration()
 	log.Debugf("Read configuration: %+v", config)
 
 	log.Info("Configuring REST API")
